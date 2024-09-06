@@ -29,7 +29,6 @@ const updateAttendence = async(req,res)=>{
     try {
         const formattedDate = moment().format('YYYY-MM-DD');
         const {data} = req.body;
-        //const {rollnumberarray,presentstatusarray} = req.body;
         for(let i=0;i<data.length;i++)
         {
             const student = await Student.findOne({Rollnumber:data[i].rollnumber});
@@ -39,14 +38,13 @@ const updateAttendence = async(req,res)=>{
         }
         res.status(200).json(new ApiResponse(true,"Attendence Success"));
     } catch (error) {
-        //console.log(error);
         res.status(500).json(new ApiError(false,error.message));
     }
 }
 const getcsv = async(req,res)=>{
     try {
         const formattedDate = moment().format('DD-MM-YYYY');
-        const data = await Student.find().lean().select("name rollnumber -_id present");
+        const data = await Student.find().lean().select("Name Rollnumber record -_id");
         const json2csvParser = new Parser();
         const csv = json2csvParser.parse(data);
         const header = ` CLASS :- A1 (${formattedDate})\n\n\n`
