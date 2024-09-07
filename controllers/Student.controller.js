@@ -50,7 +50,7 @@ const getcsv = async(req,res)=>{
         const header = ` CLASS :- A1 (${formattedDate})\n\n\n`
         const finalcsv = header+csv;
         res.header('Content-Type', 'text/csv');
-        res.attachment('data.csv');
+        res.attachment(`${formattedDate}.csv`);
         res.send(finalcsv);
     } catch (error) {
         res.status(500).json(new ApiError(false,error.message));
